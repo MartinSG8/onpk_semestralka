@@ -1,0 +1,23 @@
+pkg/
+Gemfile.lock
+vendor/
+spec/fixtures/
+.bundle/
+coverage/
+.idea/
+*.iml
+*.log
+*.exe
+
+### SSH
+*.pem
+
+### Vagrant
+.vagrant/
+
+### Terraform
+*.tfvars
+.terraform/
+terraform.tfstate.d/
+terraform.tfstate
+terraform.tfstate.backup
