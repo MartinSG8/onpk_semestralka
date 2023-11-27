@@ -22,3 +22,5 @@ COPY conf.d/default.conf /etc/nginx/conf.d
 # 2. pridat instrukciu, ktora zabezpeci, ze po vytvoreni kontajnera sa spusti nginx:
 #   nginx -g daemon off;
 #   TIP: pozor ako zadavate parametre do instrukcie
+RUN echo 'Container is using protocol TCP, port number 8080 to listen to the world.'
+CMD nginx -g 'daemon off'

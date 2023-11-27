@@ -17,3 +17,6 @@ FROM scratch
 #  1. pridat prikaz, ktory skopiruje zo stage builder subor: /builder/main do adresara /app/ (vsimnite si na riadku c.8, ze vystupom kompilacie je subor s nazvom main)
 #  2. nastavit pracovny adresar (workdir) na: /app
 #  3. pridat instrukciu, ktora zabezpeci, ze po vytvoreni kontajnera sa spusti aplikacia (tj. ./main)
+COPY --from=builder /builder/main /app/
+WORKDIR /app
+CMD ./main
