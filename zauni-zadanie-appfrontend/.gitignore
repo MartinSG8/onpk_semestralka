@@ -1,52 +1,3 @@
-# --- <terraform> ---
-pkg/
-Gemfile.lock
-vendor/
-spec/fixtures/
-.bundle/
-coverage/
-.idea/
-*.iml
-*.log
-*.exe
-
-### SSH
-*.pem
-
-### Vagrant
-.vagrant/
-
-### Terraform
-*.tfvars
-.terraform/
-terraform.tfstate.d/
-terraform.tfstate
-terraform.tfstate.backup
-# --- <!terraform!> ---
-
-#############################################################################################
-
-# --- <zauni-zadanie-appbackend> ---
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-
-# Test binary, built with `go test -c`
-*.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Dependency directories (remove the comment below to include it)
-# vendor/
-# --- <!zauni-zadanie-appbackend!> ---
-
-#############################################################################################
-
-# --- <zauni-zadanie-appfrontend> ---
 # Logs
 logs
 *.log
@@ -151,4 +102,3 @@ dist
 
 # TernJS port file
 .tern-port
-# --- <!zauni-zadanie-appfrontend!> ---
