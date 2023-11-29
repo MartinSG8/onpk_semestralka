@@ -18,5 +18,6 @@ FROM scratch
 #  2. nastavit pracovny adresar (workdir) na: /app
 #  3. pridat instrukciu, ktora zabezpeci, ze po vytvoreni kontajnera sa spusti aplikacia (tj. ./main)
 
-COPY --from=builder /build/main /app
-CMD [ "/app/main" ]
+COPY --from=builder /build/main /app/
+WORKDIR /app
+CMD [ "./main" ]
