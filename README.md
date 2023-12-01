@@ -38,27 +38,67 @@ Napokon spustíme aplikáciu nasledujúcim príkazom:
 CMD [ "./main" ]
 ```
 
-#### Zauni-zadanie-appbackend
+#### Zauni-zadanie-appfrontend
+
+Oznamenie ze kontajner bude pouzivat TCP protokol a port 8080:
+```
+RUN echo 'Container is using protocol TCP, port number 8080 to listen to the world.'
+```
+Spustenie prikazu:
+```
+CMD [ "nginx", "-g", "daemon off;" ]
+```
 
 #### Pomocné príkazy
 
+Pridaj pouzivatela do docker skupiny
+```
+sudo usermod -aG docker <meno-usera>
+```
 Kontorla inštalácie dockru:
 ```
-sudo docker run hello-world
+docker run hello-world
 ```
 Vytvorenie obrazu:
 ```
-sudo docker build <image-name>:tag
+docker build -t <image-name>:<tag>
 ```
 Spustenie kontajneru:
 ```
-sudo run <image-name> 
+docker run <image-name> 
+```
+Ulozenie obrazu robime prikazom:
+```
+docker push <dockerhub-username>/<image-name>:<tag>
+```
+Prihlas sa do dockerhubu
+```
+docker login
 ```
 
-#### Kontrola
+### Vytvorenie Obrazov
+
 Prejdeme do zložky aplikacie **appbackend** kde máme uložený **Dockerfile** a spustime nasledovný pŕikaz, aby sme vytovrili obraz:
 ```
-sudo docker build -t onpk-appbackend:1.0.0 .
+sudo docker build -t <dockerhub-username>/onpk-appbackend:1.0.0 .
 ```
 
 Rovnako opakujeme pre aplikáciu **appfrontend**
+
+#### Kontrola
+Spustime si docker kontajner:
+```
+docker run dockerhub-username>/onpk-appbackend
+```
+Skontrolujeme si stav kontajneru podla zadania
+
+### Ulozenie obrazu do dockerhub repozitara
+
+Prihlas sa do dockerhubu
+```
+docker login
+```
+Ulozenie obrazu robime prikazom:
+```
+docker push martinsg8/onpk-appbackend:1.0.0
+```
