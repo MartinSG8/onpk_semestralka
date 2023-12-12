@@ -6,7 +6,13 @@ Nasledujúci dokument je dokumentácia k mojej práci na semestrálnej práci z 
 
 ## Časť 1: Terraform
 
-Pomocou terraformu (Nástroj IaC) vytvoríme infraštruktúru s ktorou budeme ďalej pracovať.
+Pomocou terraformu (Nástroj IaC) vytvoríme infraštruktúru s ktorou budeme ďalej pracovať. 
+```
+alias k="minikube kubectl --"
+alias m="minikube"
+minikube start --driver=docker --nodes 1 
+minikube addons enable ingress
+```
 
 ## Časť 2: Docker
 
@@ -101,4 +107,11 @@ docker login
 Ulozenie obrazu robime prikazom:
 ```
 docker push martinsg8/onpk-appbackend:1.0.0
+```
+
+## Časť 3: Helm
+
+```
+alias h="helm"
+h create <name>
 ```

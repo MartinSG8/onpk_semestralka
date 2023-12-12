@@ -69,6 +69,7 @@ resource "openstack_compute_instance_v2" "jump_box" {
   flavor_name = "2c2r20d"
   key_pair        = "onpk_keypair"
   security_groups = ["public_secgroup_1"]
+  user_data = file("./scripts/config_jump_box.sh")
 
   network {
     name = "ext-net-154"
