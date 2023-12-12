@@ -34,7 +34,7 @@ table inet filter {
 table inet nat {
 	chain postrouting {
                 type nat hook postrouting priority 0;
-		oifname ens4 masquerade
+		oifname ens3 masquerade
 	}
 }
 EOF
