@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.service.service-name }}
+  name: {{ .Values.service.serviceName }}
   annotations:
     description: "Frontend service."
 spec:
