@@ -40,4 +40,5 @@ k get deployment
 k describe deployment
 k get rs
 k delete rs <name>
+k get pod -o wide
 ```

@@ -9,7 +9,7 @@ deployment:
 
 service:
   service_name: "frontend-service"
-  type: "NodePort"
+  type: "ClusterIP"
   label_name: "frontend-label"
   port: "8087"
   target_port: "8086"
