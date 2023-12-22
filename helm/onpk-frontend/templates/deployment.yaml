@@ -1,35 +1,54 @@
-# k apply -f <file-name>
-# k delete -f <file-name>
-apiVersion: v1
-kind: Namespace
+
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: onpk-app
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: onpk-frontend
+  name: {{ .Values.deployment.deployment-name }}
   labels:
-    app: frontend  
+    app: {{ .Values.deployment.label-name }}
+  annotations:
+    description: "Frontend deployment."
 spec:
-  containers:
-    - name: onpk-frontend
-      image: martinsg8/onpk-appfrontend:1.0.0
+  replicas: {{ .Values.deployment.replica-count }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.label-name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.label-name }}
+    spec:
+      containers:
+      - name: {{ .Values.deployment.container-name }}
+        image: {{ .Values.deployment.image }}
+        ports:
+        - containerPort: {{ .Values.deployment.container-port }}
+        env:
+        - name: REACT_APP_APIHOSTPORT
+          value: {{ .Values.deployment.REACT_APP_APIHOSTPORT }}
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: onpk-frontend-service
+  name: {{ .Values.service.service-name }}
+  annotations:
+    description: "Frontend service."
 spec:
+  type: {{ .Values.service.type }}
   selector:
-    app: onpk-frontend
+    app: {{ .Values.service.label-name }}
   ports:
-    - port: 8080
+    - port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.service.target-port }}
+      
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: onpk-frontend-ingress
+  name: {{ .Values.ingress.ingress-name }}
+  annotations:
+    description: "Frontend ingress."
 spec:
   rules:
     - http:
@@ -38,7 +57,7 @@ spec:
             path: /
             backend:
               service:
-                name: onpk-frontend-service
+                name: {{ .Values.ingress.service-name }}
                 port:
-                  number: 8080
+                  number: {{ .Values.ingress.port }}
 ---

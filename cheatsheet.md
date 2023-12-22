@@ -32,4 +32,12 @@ minikube addons enable ingress
 k apply -f <file-name>
 k delete -f <file-name>
 k get pods
+k get all
+k get nodes
+k delete pod <name>
+k describe pods
+k get deployment
+k describe deployment
+k get rs
+k delete rs <name>
 ```

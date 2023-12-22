@@ -1,38 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "myapp.fullname" . }}
+  name: {{ .Values.deployment.deployment-name }}
   labels:
-    app: {{ include "myapp.name" . }}
+    app: {{ .Values.deployment.label-name }}
+  annotations:
+    description: "Backend deployment."
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.deployment.replica-count }}
   selector:
     matchLabels:
-      app: {{ include "myapp.name" . }}
+      app: {{ .Values.deployment.label-name }}
   template:
     metadata:
       labels:
-        app: {{ include "myapp.name" . }}
+        app: {{ .Values.deployment.label-name }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          ports:
-            - containerPort: 80
-          env:
-            - name: MONGODB_HOST
-              value: {{ .Values.mongodb.mongodbHost }}
-            - name: MONGODB_PORT
-              value: {{ .Values.mongodb.mongodbPort }}
+      - name: {{ .Values.deployment.container-name}}
+        image: {{ .Values.deployment.image }}
+        ports:
+        - containerPort: {{ .Values.deployment.container-port }}
+        env:
+          - name: MONGO_USERNAME
+            value: {{ .Values.deployment.MONGO_USERNAME }}
+          - name: MONGO_PASSWORD
+            value: {{ .Values.deployment.MONGO_PASSWORD }}
 ---
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.service.name }}
-spec:
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: 80
-  selector:
-    app: {{ include "myapp.name" . }}

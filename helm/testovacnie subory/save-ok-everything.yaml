@@ -18,7 +18,7 @@ spec:
       - name: mongodb-container
         image: mongo:latest
         ports:
-        - containerPort: 12345
+        - containerPort: 27017
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           value: "admin"
@@ -48,7 +48,7 @@ spec:
       - name: backend-container
         image: martinsg8/onpk-appbackend:1.0.0
         ports:
-        - containerPort: 8082
+        - containerPort: 12345
         env:
           - name: MONGO_USERNAME
             value: "admin"
@@ -62,28 +62,25 @@ metadata:
   annotations:
     description: "Backend service 1."
 spec:
-  type: ClusterIP
   selector: 
     app: backend-label
   ports:
-    - port: 8083
-      protocol: TCP
-      targetPort: 8082
+    - port: 4645
 ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: backend-service-2
-#   labels:
-#     app: backend-service
-#   annotations:
-#     description: "Backend service 2."
-# spec:
-#   selector:
-#     app: backend-label
-#   ports:
-#     - port: 4655
-# ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service-2
+  labels:
+    app: backend-service
+  annotations:
+    description: "Backend service 2."
+spec:
+  selector:
+    app: backend-label
+  ports:
+    - port: 4655
+---
 
 apiVersion: apps/v1
 kind: Deployment
@@ -107,26 +104,22 @@ spec:
       - name: frontend-container
         image: martinsg8/onpk-appfrontend:1.0.0
         ports:
-        - containerPort: 8086
+        - containerPort: 8080
         env:
         - name: REACT_APP_APIHOSTPORT
-          value: "10.1.2.3:80"
+          value: "10.0.0.1:80"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-service 
+  name: frontend-service
   annotations:
     description: "Frontend service."
 spec:
-  type: NodePort
   selector:
     app: frontend-label
   ports:
-    - port: 8087
-      protocol: TCP
-      targetPort: 8086
-      
+    - port: 8080
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -144,5 +137,5 @@ spec:
               service:
                 name: frontend-service
                 port:
-                  number: 8087
+                  number: 8080
 ---
