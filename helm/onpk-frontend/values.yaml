@@ -1,20 +1,20 @@
 deployment:
   replica-count: 1
-  deploymentName: frontend-deployment
-  label-name: frontend-label
-  container-name: frontend-container
-  image: martinsg8/onpk-appfrontend:1.0.0
-  container-port: 8086
-  REACT_APP_APIHOSTPORT: 10.1.2.3:80
+  deploymentName: "frontend-deployment"
+  label-name: "frontend-label"
+  container-name: "frontend-container"
+  image: "martinsg8/onpk-appfrontend:1.0.0"
+  container-port: "8086"
+  REACT_APP_APIHOSTPORT: "10.1.2.3:80"
 
 service:
-  serviceName: frontend-service
-  type: NodePort
-  label-name: frontend-label
-  port: 8087
-  target-port: 8086
+  serviceName: "frontend-service"
+  type: "NodePort"
+  label-name: "frontend-label"
+  port: "8087"
+  target-port: "8086"
 
 ingress:
-  ingress-name: frontend-ingress
-  service-name: frontend-service
+  ingress-name: "frontend-ingress"
+  service-name: "frontend-service"
   port: 8087
