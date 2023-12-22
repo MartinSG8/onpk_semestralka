@@ -1,26 +1,26 @@
 deployment:
-  replica-count: 1
-  deployment-name: backend-deployment
+  replica_count: 1
+  deployment_name: backend-deployment
   label-name: backend-label
-  container-name: backend-container
+  container_name: backend-container
   image: martinsg8/onpk-appbackend:1.0.0
-  container-port: 8082
+  container_port: 8082
   MONGO_USERNAME: admin
   MONGO_PASSWORD: examplepassword
 
 service:
-  service-name: backend-service
+  service_name: backend-service
   type: ClusterIP
-  label-name: backend-label
+  label_name: backend-label
   port: 8083
-  target-port: 8082
+  target_port: 8082
 
 mongodb:
-  replica-count: 1
-  deployment-name: mongodb-deployment
-  label-name: mongodb-label
-  container-name: mongodb-container
+  replica_count: 1
+  deployment_name: mongodb-deployment
+  label_name: mongodb-label
+  container_name: mongodb-container
   image: mongo:latest
-  container-port: 12345
+  container_port: 12345
   MONGO_INITDB_ROOT_USERNAME: admin
   MONGO_INITDB_ROOT_PASSWORD: examplepassword

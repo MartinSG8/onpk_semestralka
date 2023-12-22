@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.mongodb.deployment-name }}
+  name: {{ .Values.mongodb.deployment_name }}
   annotations:
     description: "MongoDB deployment."
 spec:
-  replicas: {{ .Values.mongodb.replica-count }}
+  replicas: {{ .Values.mongodb.replica_count }}
   selector:
     matchLabels:
-      app: {{ .Values.mongodb.label-name }}
+      app: {{ .Values.mongodb.label_name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.mongodb.label-name }}
+        app: {{ .Values.mongodb.label_name }}
     spec:
       containers:
-      - name: {{ .Values.mongodb.container-name }}
+      - name: {{ .Values.mongodb.container_name }}
         image: {{ .Values.mongodb.image }}
         ports:
-        - containerPort: {{ .Values.mongodb.container-port }}
+        - containerPort: {{ .Values.mongodb.container_port }}
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           value: {{ .Values.mongodb.MONGO_INITDB_ROOT_USERNAME }}
