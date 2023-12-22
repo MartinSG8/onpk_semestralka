@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,39 +24,4 @@ spec:
         env:
         - name: REACT_APP_APIHOSTPORT
           value: {{ .Values.deployment.REACT_APP_APIHOSTPORT }}
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.service.service-name }}
-  annotations:
-    description: "Frontend service."
-spec:
-  type: {{ .Values.service.type }}
-  selector:
-    app: {{ .Values.service.label-name }}
-  ports:
-    - port: {{ .Values.service.port }}
-      protocol: TCP
-      targetPort: {{ .Values.service.target-port }}
-      
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: {{ .Values.ingress.ingress-name }}
-  annotations:
-    description: "Frontend ingress."
-spec:
-  rules:
-    - http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: {{ .Values.ingress.service-name }}
-                port:
-                  number: {{ .Values.ingress.port }}
 ---
