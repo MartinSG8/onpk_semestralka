@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: website-nginx-cm
+  namespace: default
+data:
+  default.conf: |-
+    server {
+        listen 9080 default_server;
+        root /usr/share/nginx/html;
+        index index.html;
+        location / {
+          add_header Content-Type text/html;
+          return 200 '<html><body>Nothing here! (Overriden from K8S ConfigMap)</body></html>';
+        }
+    }
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: website
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: website
+    spec:
+      containers:
+        - name: website
+          image: docker.io/nginx:latest
+          ports:
+            - containerPort: 9080
+          volumeMounts:
+          - mountPath: /etc/nginx/conf.d
+            name: configmap-volume
+      volumes:
+      - name: configmap-volume
+        configMap:
+          name: website-nginx-cm
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: website-service
+  namespace: default
+spec:
+  selector:
+    app: website
+  ports:
+  - protocol: TCP
+    port: 9080
+    targetPort: 9080

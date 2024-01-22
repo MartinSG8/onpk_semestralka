@@ -1,0 +1,22 @@
+# kubectl create deployment webserver-deployment --image=nginx --replicas 3 --dry-run=client -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webserver-deployment
+  name: webserver-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+      - image: docker.io/nginx:latest
+        name: webserver-container
+        ports:
+          - containerPort: 80

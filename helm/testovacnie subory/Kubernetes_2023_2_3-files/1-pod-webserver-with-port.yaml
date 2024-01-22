@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webserver
+spec:
+  containers:
+  - name: webserver
+    # short version works as well 
+    #image: nginx
+    image: docker.io/nginx:latest
+    #ports: # optional, all ports listening on the default '0.0.0.0' address from container will be exposed
+    #  - containerPort: 80

@@ -1,0 +1,41 @@
+#kubectl create configmap appconfig --from-literal=DB_HOST=192.168.100.100 --from-literal=DB_NAME=appdb --from-literal=DB_PASSWORD=mysecurepassword -o yaml --dry-run=client
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: external-appconfig
+  namespace: default
+data:
+  EXTERNAL_DB_HOST: 192.168.100.100
+  EXTERNAL_DB_NAME: appdb
+  EXTERNAL_DB_PASSWORD: mysecurepassword
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: busybox-test-configmap
+  namespace: default
+spec:
+  containers:
+    - name: busybox
+      image: docker.io/busybox:latest
+      command:
+        - "/bin/sleep"
+        - "10000"
+      env:
+      - name: DB_HOST
+        valueFrom:
+          configMapKeyRef:
+            name: external-appconfig
+            key: EXTERNAL_DB_HOST
+      - name: DB_NAME
+        valueFrom:
+          configMapKeyRef:
+            name: external-appconfig
+            key: EXTERNAL_DB_NAME
+      - name: DB_PASSWORD
+        valueFrom:
+          configMapKeyRef:
+            name: external-appconfig
+            key: EXTERNAL_DB_PASSWORD

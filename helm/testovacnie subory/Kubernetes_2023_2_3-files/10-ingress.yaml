@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-demo
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-1
+  name: app-1-deployment
+  namespace: ingress-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-1
+  template:
+    metadata:
+      labels:
+        app: app-1
+    spec:
+      containers:
+      - name: app-1-container
+        # https://hub.docker.com/r/hashicorp/http-echo
+        image: docker.io/hashicorp/http-echo
+        args:
+          - "-text=Sample app 1"
+        ports:
+          - containerPort: 5678
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-1-service
+  namespace: ingress-demo
+spec:
+  selector:
+    app: app-1
+  ports:
+    - port: 5678
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-2
+  name: app-2-deployment
+  namespace: ingress-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-2
+  template:
+    metadata:
+      labels:
+        app: app-2
+    spec:
+      containers:
+      - name: app-2-container
+        # https://hub.docker.com/r/hashicorp/http-echo
+        image: docker.io/hashicorp/http-echo
+        args:
+          - "-text=Sample app 2"
+        ports:
+          - containerPort: 5678
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-2-service
+  namespace: ingress-demo
+spec:
+  selector:
+    app: app-2
+  ports:
+    - port: 5678
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sample-ingress
+  namespace: ingress-demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+        - path: /app-1
+          pathType: Prefix
+          backend:
+            service:
+              name: app-1-service
+              port:
+                number: 5678
+        - path: /app-2
+          pathType: Prefix
+          backend:
+            service:
+              name: app-2-service
+              port:
+                number: 5678

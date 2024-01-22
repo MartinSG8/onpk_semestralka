@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webserver-deployment
+  name: webserver-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+      - image: docker.io/nginx:latest
+        name: webserver-container
+        ports:
+          - containerPort: 80
+
+---
+# kubectl expose deployment webserver-deployment --type ClusterIP --port 80 -o yaml --name webserver-service --dry-run=client
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: webserver-deployment
+  name: webserver-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: webserver
+  type: ClusterIP

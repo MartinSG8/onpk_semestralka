@@ -1,0 +1,60 @@
+# execute before you create this deployment:
+# kubectl taint nodes twonodes-m02 specialHardware=gpu:NoExecute
+# kubectl taint nodes twonodes-m02 team=zauni-opnk:NoSchedule
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webserver-deployment
+  name: webserver-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+      - image: docker.io/nginx:latest
+        name: webserver-container
+        ports:
+          - containerPort: 80
+      tolerations:
+      - key: "specialHardware"
+        operator: "Equal"
+        value: "gpu"
+        effect: "NoExecute"
+      - key: "team"
+        operator: "Equal"
+        value: "zauni-opnk"
+        effect: "NoExecute"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webserver-loser-deployment
+  name: webserver-loser-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webserver-loser
+  template:
+    metadata:
+      labels:
+        app: webserver-loser
+    spec:
+      containers:
+      - image: docker.io/nginx:latest
+        name: webserver-loser-container
+        ports:
+          - containerPort: 80
+
+# remove taint
+# kubectl taint nodes twonodes-m02 specialHardware=gpu:NoExecute-

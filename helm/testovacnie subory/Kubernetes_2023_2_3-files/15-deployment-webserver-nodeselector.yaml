@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webserver-deployment
+  name: webserver-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+      - image: docker.io/nginx:latest
+        name: webserver-container
+        ports:
+          - containerPort: 80
+      nodeSelector:
+        specialHardware: gpu
+
+# some node(s) must have corresponding label
+# kubectl label nodes twonodes-m02 specialHardware=gpu
+
+# remove label
+# kubectl label nodes twonodes-m02 specialHardware-
